@@ -98,11 +98,12 @@ function populateCategoryFilter(categories) {
 
 // Застосування фільтрів
 function applyFilters() {
-    const categoryFilter = document.querySelector('#category-filter').value
-    const sortFilter = document.querySelector('#sort-filter').value
-    const searchInput = document.querySelector('#search-input').value.toLowerCase()
+    const categoryFilterEl = document.querySelector('#category-filter')
+    const sortFilterEl = document.querySelector('#sort-filter')
+    const categoryFilter = categoryFilterEl ? categoryFilterEl.value : 'all'
+    const sortFilter = sortFilterEl ? sortFilterEl.value : 'default'
 
-    // Фільтрація за категорією
+    // Фільтрація за категорією (якщо є елемент)
     filteredProducts = allProducts.filter(product => {
         if (categoryFilter !== 'all' && product.category !== categoryFilter) {
             return false
@@ -110,12 +111,7 @@ function applyFilters() {
         return true
     })
 
-    // Пошук за назвою
-    if (searchInput) {
-        filteredProducts = filteredProducts.filter(product => {
-            return product.title.toLowerCase().includes(searchInput)
-        })
-    }
+    // Пошук за назвою видалено (пошукове поле прибрано)
 
     // Сортування
     switch(sortFilter) {
@@ -145,8 +141,9 @@ getProducts().then(function(products) {
     // Відображаємо всі товари
     displayProducts(products)
 
-    // Додаємо обробники для фільтрів
-    document.querySelector('#category-filter').addEventListener('change', applyFilters)
-    document.querySelector('#sort-filter').addEventListener('change', applyFilters)
-    document.querySelector('#search-input').addEventListener('input', applyFilters)
+    // Додаємо обробники для фільтрів, якщо елементи існують
+    const catEl = document.querySelector('#category-filter')
+    if (catEl) catEl.addEventListener('change', applyFilters)
+    const sortEl = document.querySelector('#sort-filter')
+    if (sortEl) sortEl.addEventListener('change', applyFilters)
 })

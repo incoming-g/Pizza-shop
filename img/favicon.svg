@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#ff7a2d"/>
+      <stop offset="1" stop-color="#e64522"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#fff"/>
+  <g transform="translate(8,8)">
+    <circle cx="24" cy="24" r="20" fill="url(#g)"/>
+    <!-- simple pepperoni dots -->
+    <circle cx="18" cy="18" r="3" fill="#9b2b1b"/>
+    <circle cx="30" cy="22" r="3" fill="#9b2b1b"/>
+    <circle cx="26" cy="32" r="3" fill="#9b2b1b"/>
+    <!-- cheese shine -->
+    <path d="M6 34c6 6 28 6 36 0" fill="rgba(255,255,255,0.06)"/>
+  </g>
+</svg>

@@ -1,132 +1,62 @@
 /* Загальні стилі */
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+:root{
+    --pizza-red:#e64522;
+    --pizza-orange:#ff7a2d;
+    --accent:#ffd9b3;
+    --dark:#3b2b2b;
+    --muted:#7a7a7a;
 }
 
-footer {
-    margin-top: auto;
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    margin:0;padding:0;
+    color:var(--dark);
+    min-height:100vh;
+    display:flex;flex-direction:column;
+    /* Red-orange background gradient for the whole site */
+    background: linear-gradient(135deg, var(--pizza-red) 0%, var(--pizza-orange) 100%);
 }
 
-/* Стилі для карток товарів */
-.product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #dee2e6;
-}
+/* Navbar override to fit theme */
+#mainNavbar{background:transparent}
+.navbar-brand{font-weight:800;color:#fff}
+.nav-link{color:rgba(255,255,255,0.95);font-weight:600}
+.nav-link:hover{color:var(--accent) !important}
+/* Logo spacing */
+.navbar-brand img{border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+/* Hero */
+.hero-section{position:relative;min-height:560px;display:flex;align-items:center;color:#fff}
+.hero-section .container{z-index:2}
+.hero-section::before{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(0,0,0,0.15),rgba(0,0,0,0.35));}
+.hero-section h1{font-size:3rem;font-weight:800;text-shadow:0 8px 30px rgba(0,0,0,0.35)}
+.hero-section p.lead{opacity:.95}
 
-.product-card img {
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 1px solid #dee2e6;
-}
+/* Buttons styled red-orange */
+.btn-primary{background:linear-gradient(90deg,var(--pizza-red),var(--pizza-orange));border:none;color:#fff}
+.btn-primary:hover{filter:brightness(.95);transform:translateY(-2px)}
+.btn-outline-light{border-color:rgba(255,255,255,0.18);color:rgba(255,255,255,0.95)}
 
-/* Стилі для героя */
-.hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
+/* Product cards - neutral background to contrast with red-orange site */
+.product-card{border-radius:12px;background:#fff;padding:0;box-shadow:0 10px 30px rgba(0,0,0,0.14);overflow:hidden;position:relative}
+.product-card img{height:200px;object-fit:cover;width:100%}
+.card-body{padding:1rem}
+.product-title{font-weight:700;color:var(--dark);margin-bottom:.5rem}
+.product-price{color:var(--pizza-red);font-weight:800}
+.product-badge{position:absolute;left:12px;top:12px;background:var(--pizza-orange);color:#fff;padding:6px 10px;border-radius:8px;font-weight:700;box-shadow:0 8px 20px rgba(255,122,45,0.12)}
+.product-actions .btn{border-radius:10px}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 30px 60px rgba(0,0,0,0.16)}
 
-.hero-section h1 {
-    color: white;
-}
+/* Cart count */
+#cart-count{background:#fff;color:var(--pizza-red);font-weight:700;border-radius:999px;padding:2px 8px}
 
-.hero-section .btn {
-    padding: 12px 30px;
-    font-size: 1.1rem;
-}
+/* Footer */
+footer{background:rgba(0,0,0,0.06);color:#fff}
 
-/* Стилі для навігації */
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
+/* Misc */
+.breadcrumb{background:transparent;padding:.75rem .9rem}
+.form-select,.form-control{border-radius:8px}
 
-.nav-link {
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #ffc107 !important;
-}
-
-/* Стилі для кошика */
-#cart-count {
-    font-size: 0.75rem;
-    padding: 2px 6px;
-    border-radius: 10px;
-}
-
-/* Стилі для сторінки товару */
-.product-details img {
-    max-height: 500px;
-    object-fit: contain;
-}
-
-/* Стилі для кошика на сторінці */
-.list-group-item {
-    padding: 1.5rem;
-}
-
-.quantity-input {
-    max-width: 70px;
-}
-
-/* Адаптивність */
-@media (max-width: 768px) {
-    .product-card img {
-        height: 250px;
-    }
-    
-    .hero-section h1 {
-        font-size: 2rem;
-    }
-    
-    .list-group-item .row > div {
-        margin-bottom: 1rem;
-    }
-    
-    .list-group-item .row > div:last-child {
-        margin-bottom: 0;
-    }
-}
-
-/* Анімація для кнопок */
-.btn {
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Стилі для breadcrumb */
-.breadcrumb {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.5rem;
-}
-
-/* Стилі для фільтрів */
-.form-select,
-.form-control {
-    transition: border-color 0.3s ease;
-}
-
-.form-select:focus,
-.form-control:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-}
-
-/* Стилі для порожнього кошика */
-#empty-cart i {
-    font-size: 5rem;
-}
+@media (max-width:768px){.hero-section h1{font-size:2rem}.product-card img{height:220px}}

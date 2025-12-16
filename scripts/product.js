@@ -42,7 +42,7 @@ function displayProductDetails(product) {
     }
 
     // Оновлюємо title сторінки
-    document.title = `${product.title} - Мій Магазин`
+    document.title = `${product.title} - PizzaLite`
 
     // Відображаємо деталі товару
     productDetails.innerHTML = `
