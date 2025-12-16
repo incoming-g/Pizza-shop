@@ -164,4 +164,12 @@ footer{background:rgba(0,0,0,0.06);color:#fff}
 
 /* Breadcrumb and content spacing refinement */
 .breadcrumb{background:transparent;padding:.5rem 0;margin-bottom:1rem}
-
+/* ОПИС ПІД ПІЦОЮ — ПРИМУСОВО БІЛИЙ */
+.product-info p,
+.product-info .lead,
+.product-description p,
+.hero p,
+.hero span,
+section p {
+    color: #fff !important;
+}
