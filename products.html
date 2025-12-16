@@ -33,35 +33,59 @@
                             <i class="bi bi-cart3"></i> Кошик
                         </a>
                     </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn btn-outline-light btn-sm nav-login nav-auth-btn">Увійти</button>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn btn-light btn-sm nav-register nav-auth-btn">Реєстрація</button>
+                    </li>
+                    <li class="nav-item d-flex align-items-center nav-user" style="display:none">
+                        <div class="user-badge">
+                            <img src="img/favicon.svg" alt="user">
+                            <span class="user-name">Guest</span>
+                            <button class="btn btn-sm btn-outline-light ms-2 nav-logout">Вийти</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Фільтри (ліворуч) і каталог (праворуч) -->
-    <section class="py-5">
+    <!-- Фільтри (ліворуч) і каталог (праворуч) — стилізована панель як на головній -->
+    <section class="py-5 main-products">
         <div class="container">
-            <h2 class="mb-4">Каталог товарів</h2>
-
-            <div class="row">
-                <!-- Контент: товари (широкий макет — боковая панель удалена) -->
-                <main class="col-12">
-                    <!-- Короткий рядок статусу / кількість / додаткове сортування (опціонально) -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div id="results-info" class="text-muted">Показано всі товари</div>
-                        <!-- Місце для швидкого сортування (якщо хочете дублювати) -->
-                        <!-- <div>
-                            <select class="form-select form-select-sm" id="quick-sort">
-                                <option value="default">За замовчуванням</option>
-                            </select>
-                        </div> -->
+            <div class="products-panel p-4 rounded shadow-sm">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <h2 class="mb-0 fw-bold">Каталог товарів</h2>
+                        <p class="section-subtitle text-muted mb-0">Виберіть піцу за смаком — сортування за ціною доступне вгорі</p>
                     </div>
-
-                    <!-- Список товарів -->
-                    <div class="row g-4" id="products-list">
-                        <!-- Товари будуть додані через JavaScript -->
+                    <div>
+                        <a href="index.html" class="btn btn-outline-dark view-all">На головну</a>
                     </div>
-                </main>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div id="results-info" class="text-muted">Показано всі товари</div>
+                    <!-- Місце для швидкого сортування (якщо хочете дублювати) -->
+                </div>
+
+                <!-- Компактний фільтр по ціні (не заважає, можна приховати) -->
+                <div class="price-filter mb-3 p-3 rounded shadow-sm bg-white">
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <label class="mb-0 me-2 text-muted small">Ціна:</label>
+                        <input type="number" id="price-min-inline" class="form-control form-control-sm" placeholder="мін" min="0" style="width:110px">
+                        <span class="text-muted">—</span>
+                        <input type="number" id="price-max-inline" class="form-control form-control-sm" placeholder="макс" min="0" style="width:110px">
+                        <button id="price-apply" class="btn btn-primary btn-sm ms-2">Застосувати</button>
+                        <button id="price-clear" class="btn btn-outline-secondary btn-sm ms-1">Очистити</button>
+                    </div>
+                </div>
+
+                <!-- Список товарів -->
+                <div class="row g-4" id="products-list">
+                    <!-- Товари будуть додані через JavaScript -->
+                </div>
             </div>
         </div>
     </section>
@@ -73,10 +97,71 @@
         </div>
     </footer>
 
+        <!-- Login Modal -->
+        <div class="modal fade auth-modal" id="loginModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Вхід в PizzaLite</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input id="login-email" class="form-control" type="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Пароль</label>
+                                <input id="login-pass" class="form-control" type="password" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-secondary me-2" type="button" data-bs-dismiss="modal">Скасувати</button>
+                                <button class="btn btn-primary" type="submit">Увійти</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal fade auth-modal" id="registerModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Реєстрація в PizzaLite</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="register-form">
+                            <div class="mb-3">
+                                <label class="form-label">Ім'я</label>
+                                <input id="reg-name" class="form-control" type="text" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input id="reg-email" class="form-control" type="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Пароль</label>
+                                <input id="reg-pass" class="form-control" type="password" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-secondary me-2" type="button" data-bs-dismiss="modal">Скасувати</button>
+                                <button class="btn btn-primary" type="submit">Зареєструватись</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- Скріпти -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts/cart.js"></script>
     <script src="scripts/products.js"></script>
+    <script src="scripts/auth.js"></script>
 
     <script>
         // Якщо ваш products.js навчається на існуючих id полів:

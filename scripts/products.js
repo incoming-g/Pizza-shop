@@ -112,17 +112,34 @@ function applyFilters() {
     })
 
     // Пошук за назвою видалено (пошукове поле прибрано)
+    // Фільтрація за ціною (якщо вказані min/max)
+    const priceMinEl = document.querySelector('#price-min-inline')
+    const priceMaxEl = document.querySelector('#price-max-inline')
+    const priceMin = priceMinEl && priceMinEl.value !== '' ? parseFloat(priceMinEl.value) : null
+    const priceMax = priceMaxEl && priceMaxEl.value !== '' ? parseFloat(priceMaxEl.value) : null
 
-    // Сортування
+    if (priceMin !== null || priceMax !== null) {
+        filteredProducts = filteredProducts.filter(product => {
+            const price = parseFloat(product.price) || 0
+            if (priceMin !== null && price < priceMin) return false
+            if (priceMax !== null && price > priceMax) return false
+            return true
+        })
+    }
+
+    // Сортування (за замовчуванням - від більшої ціни до меншої)
     switch(sortFilter) {
         case 'price-asc':
-            filteredProducts.sort((a, b) => a.price - b.price)
+            filteredProducts.sort((a, b) => (parseFloat(a.price) || 0) - (parseFloat(b.price) || 0))
             break
         case 'price-desc':
-            filteredProducts.sort((a, b) => b.price - a.price)
+            filteredProducts.sort((a, b) => (parseFloat(b.price) || 0) - (parseFloat(a.price) || 0))
             break
         case 'name':
             filteredProducts.sort((a, b) => a.title.localeCompare(b.title))
+            break
+        default:
+            filteredProducts.sort((a, b) => (parseFloat(b.price) || 0) - (parseFloat(a.price) || 0))
             break
     }
 
@@ -132,18 +149,47 @@ function applyFilters() {
 // Ініціалізація сторінки
 getProducts().then(function(products) {
     allProducts = products
-    filteredProducts = products
+
+    // Сортуємо весь масив товарів за спаданням ціни (щоб дорогі були зверху)
+    allProducts.sort((a, b) => (parseFloat(b.price) || 0) - (parseFloat(a.price) || 0))
+    filteredProducts = allProducts.slice()
 
     // Заповнюємо фільтр категорій
-    const categories = getCategories(products)
+    const categories = getCategories(allProducts)
     populateCategoryFilter(categories)
-
-    // Відображаємо всі товари
-    displayProducts(products)
 
     // Додаємо обробники для фільтрів, якщо елементи існують
     const catEl = document.querySelector('#category-filter')
     if (catEl) catEl.addEventListener('change', applyFilters)
     const sortEl = document.querySelector('#sort-filter')
     if (sortEl) sortEl.addEventListener('change', applyFilters)
+
+    // Инициализация price inputs: подставим минимальную/максимальную цену в placeholder
+    const prices = allProducts.map(p => parseFloat(p.price) || 0).filter(v => !isNaN(v))
+    const minEl = document.querySelector('#price-min-inline')
+    const maxEl = document.querySelector('#price-max-inline')
+    if (prices.length) {
+        const min = Math.min(...prices)
+        const max = Math.max(...prices)
+        if (minEl) {
+            minEl.placeholder = Math.round(min)
+            minEl.min = 0
+        }
+        if (maxEl) {
+            maxEl.placeholder = Math.round(max)
+            maxEl.min = 0
+        }
+    }
+    // Привяжем кнопки применения/очистки
+    const applyBtn = document.querySelector('#price-apply')
+    const clearBtn = document.querySelector('#price-clear')
+    if (applyBtn) applyBtn.addEventListener('click', applyFilters)
+    if (clearBtn) clearBtn.addEventListener('click', function(){
+        if (minEl) minEl.value = ''
+        if (maxEl) maxEl.value = ''
+        applyFilters()
+    })
+
+    // Перший рендер — застосувати фільтри/сортування (за замовчуванням — від більшої ціни до меншої)
+    applyFilters()
 })

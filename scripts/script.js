@@ -49,17 +49,36 @@ function addToCart(event) {
 getProducts().then(function(products) {
     const productsList = document.querySelector('#products-list')
     if (productsList) {
-        // Показуємо тільки перші 6 товарів на головній
+        // Сортуємо за числовою ціною (спадання) і показуємо перші 6
+        products.sort((a, b) => (parseFloat(b.price) || 0) - (parseFloat(a.price) || 0))
         const featuredProducts = products.slice(0, 6)
-        
+
         featuredProducts.forEach(function(product) {
             productsList.innerHTML += getCardHTML(product)
         })
 
-        // Додаємо обробники подій для кнопок "Купити"
-        const buyButtons = document.querySelectorAll('.add-to-cart-btn')
-        buyButtons.forEach(function(button) {
-            button.addEventListener('click', addToCart)
+        // Делегований обробник для кнопок "Купити" (працює коли клікають по іконці/тексту)
+        productsList.addEventListener('click', function(e) {
+            const btn = e.target.closest('.add-to-cart-btn')
+            if (!btn) return
+            const productData = btn.getAttribute('data-product')
+            if (!productData) return
+            let product
+            try { product = JSON.parse(productData) } catch (err) { console.error('parse product', err); return }
+            if (typeof cart !== 'undefined' && cart && typeof cart.addItem === 'function') {
+                cart.addItem(product)
+            } else {
+                const stored = JSON.parse(localStorage.getItem('cart_fallback') || '{}')
+                if (stored[product.id]) stored[product.id].quantity += 1
+                else stored[product.id] = { ...product, quantity: 1 }
+                localStorage.setItem('cart_fallback', JSON.stringify(stored))
+                // non-blocking toast
+                const t = document.createElement('div')
+                t.className = 'pl-toast'
+                t.textContent = 'Товар додано до кошика (локально).'
+                document.body.appendChild(t)
+                setTimeout(() => t.remove(), 2200)
+            }
         })
     }
 })

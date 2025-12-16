@@ -36,10 +36,36 @@
                             <span class="badge bg-danger" id="cart-count">0</span>
                         </a>
                     </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn btn-outline-light btn-sm nav-login nav-auth-btn">Увійти</button>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <button class="btn btn-light btn-sm nav-register nav-auth-btn">Реєстрація</button>
+                    </li>
+                    <li class="nav-item d-flex align-items-center nav-user" style="display:none">
+                        <div class="user-badge">
+                            <img src="img/favicon.svg" alt="user">
+                            <span class="user-name">Guest</span>
+                            <button class="btn btn-sm btn-outline-light ms-2 nav-logout">Вийти</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+    <!-- Promo announcement bar -->
+    <section class="promo-bar" aria-label="Спеціальна пропозиція"> 
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="promo-left d-flex align-items-center">
+                <div class="promo-icon" aria-hidden="true">🎁</div>
+                <div class="promo-text">
+                    <div class="promo-title">Спеціальна пропозиція!</div>
+                    <div class="promo-sub small">Безкоштовна доставка при замовленні від 400 грн. Поспішай — пропозиція обмежена!</div>
+                </div>
+            </div>
+            <a class="btn promo-cta" href="products.html">До каталогу &rarr;</a>
+        </div>
+    </section>
 
     <!-- Hero Section з фоновим зображенням -->
     <section class="hero-section" style="background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('https://images.unsplash.com/photo-1548365328-9d3b2d3b8f79?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat; min-height: 600px; display: flex; align-items: center; color: white;">
@@ -102,12 +128,25 @@
         </div>
     </section>
 
-    <!-- Популярні товари -->
-    <section class="py-5">
+    <!-- Популярні товари (основна зона) -->
+    <section class="py-5 main-products">
         <div class="container">
-            <h2 class="text-center mb-4 fw-bold">Смачні піци</h2>
-            <div class="row" id="products-list">
-                <!-- Товари будуть додані через JavaScript -->
+            <div class="products-panel p-4 rounded shadow-sm">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                        <h2 class="mb-0 fw-bold">Смачні піци</h2>
+                        <p class="section-subtitle text-muted mb-0">Наші топ-пропозиції — вибрані сьогодні спеціально для вас</p>
+                    </div>
+                    <div>
+                        <a href="products.html" class="btn btn-outline-dark view-all">
+                            Переглянути всі піци
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row g-4" id="products-list">
+                    <!-- Товари будуть додані через JavaScript -->
+                </div>
             </div>
         </div>
     </section>
@@ -227,15 +266,76 @@
             </div>
             <hr class="bg-white-50">
             <div class="text-center text-white-50">
-                <p class="mb-0">&copy; 2024 PizzaLite. Всі права захищені.</p>
+                <p class="mb-0">&copy; 2025 PizzaLite. Всі права захищені.</p>
             </div>
         </div>
     </footer>
+
+        <!-- Login Modal -->
+        <div class="modal fade auth-modal" id="loginModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Вхід в PizzaLite</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input id="login-email" class="form-control" type="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Пароль</label>
+                                <input id="login-pass" class="form-control" type="password" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-secondary me-2" type="button" data-bs-dismiss="modal">Скасувати</button>
+                                <button class="btn btn-primary" type="submit">Увійти</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div class="modal fade auth-modal" id="registerModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Реєстрація в PizzaLite</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="register-form">
+                            <div class="mb-3">
+                                <label class="form-label">Ім'я</label>
+                                <input id="reg-name" class="form-control" type="text" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input id="reg-email" class="form-control" type="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Пароль</label>
+                                <input id="reg-pass" class="form-control" type="password" required>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-secondary me-2" type="button" data-bs-dismiss="modal">Скасувати</button>
+                                <button class="btn btn-primary" type="submit">Зареєструватись</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="scripts/cart.js"></script>
     <script src="scripts/script.js"></script>
+    <script src="scripts/auth.js"></script>
     <script>
         // Ініціалізація Swiper для відгуків — автоскрол раз на 4 секунди, без пагінації/навігації, з циклом
         const swiper = new Swiper('.reviewsSwiper', {

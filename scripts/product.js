@@ -44,42 +44,50 @@ function displayProductDetails(product) {
     // Оновлюємо title сторінки
     document.title = `${product.title} - PizzaLite`
 
-    // Відображаємо деталі товару
-    productDetails.innerHTML = `
-        <div class="col-md-6">
-            <img src="img/${product.image}" class="img-fluid rounded" alt="${product.title}"
-                 onerror="this.src='https://via.placeholder.com/500x500?text=Немає+зображення'">
-        </div>
-        <div class="col-md-6">
-            <h1 class="mb-3">${product.title}</h1>
-            <p class="text-muted mb-3">
-                <i class="bi bi-tag"></i> ${product.category || 'Без категорії'}
-            </p>
-            <p class="lead mb-4">${product.fullDescription || product.description}</p>
-            
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="text-primary mb-3">${product.price} грн</h3>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary btn-lg" id="add-to-cart-btn" 
-                                data-product='${JSON.stringify(product)}'>
-                            <i class="bi bi-cart-plus"></i> Додати до кошика
-                        </button>
-                        <a href="products.html" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> Повернутися до каталогу
-                        </a>
-                    </div>
-                </div>
-            </div>
+    // Відображаємо деталі товару (чистий markup для красивого відображення)
+    function fmtPrice(v){
+        const n = Number(v) || 0
+        return n.toLocaleString('uk-UA', {maximumFractionDigits:0}) + ' грн'
+    }
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Характеристики</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><i class="bi bi-check-circle text-success"></i> Офіційна гарантія</li>
-                        <li><i class="bi bi-check-circle text-success"></i> Безкоштовна доставка</li>
-                        <li><i class="bi bi-check-circle text-success"></i> Обмін та повернення</li>
-                    </ul>
+    productDetails.innerHTML = `
+        <div class="col-12">
+            <div class="product-detail">
+                <div class="product-image">
+                    <img src="img/${product.image}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/700x500?text=Немає+зображення'">
+                </div>
+                <div class="product-info">
+                    <h1>${product.title}</h1>
+                    <div class="meta"><i class="bi bi-tag"></i> ${product.category || 'Без категорії'}</div>
+                    <p class="lead">${product.fullDescription || product.description}</p>
+
+                    <div class="price-card">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="muted-block">Ціна</div>
+                                <div class="price-large">${fmtPrice(product.price)}</div>
+                            </div>
+                            <div class="price-actions">
+                                <button class="btn btn-primary btn-lg" id="add-to-cart-btn" data-product='${JSON.stringify(product)}'>
+                                    <i class="bi bi-cart-plus"></i> Додати до кошика
+                                </button>
+                                <a href="products.html" class="btn btn-outline-secondary ms-2"> <i class="bi bi-arrow-left"></i> Повернутися</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="characteristics">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Характеристики</h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="bi bi-check-circle text-success"></i> Офіційна гарантія</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Безкоштовна доставка</li>
+                                    <li><i class="bi bi-check-circle text-success"></i> Обмін та повернення</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
